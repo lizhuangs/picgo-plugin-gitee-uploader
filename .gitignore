@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.DS_Store
+yarn-error.log
+temp.js
+package-lock.json
+data.json
+lib/develop.ts
+dev
+coverage
