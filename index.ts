@@ -198,27 +198,9 @@ const config = (ctx: picgo): PluginConfig[] => {
   }
   const conf = [
     {
-      name: 'username',
-      type: 'input',
-      default: userConfig.username || '',
-      required: true
-    },
-    {
-      name: 'password',
+      name: 'token',
       type: 'password',
       default: userConfig.password || '',
-      required: true
-    },
-    {
-      name: 'client_id',
-      type: 'input',
-      default: userConfig.client_id || '',
-      required: true
-    },
-    {
-      name: 'client_secret',
-      type: 'input',
-      default: userConfig.client_secret || '',
       required: true
     },
     {

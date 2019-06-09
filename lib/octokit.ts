@@ -18,10 +18,6 @@ export class Octo {
   ctx: picgo
   baseUrl = 'https://gitee.com/api/v5'
   constructor({
-    username,
-    password,
-    client_id,
-    client_secret,
     repo,
     branch,
     path = '',
@@ -30,10 +26,6 @@ export class Octo {
   }: PluginConfig, ctx: picgo) {
     const [owner, r] = repo.split('/')
     if (!r) throw new Error('Error in repo name')
-    this.username = username
-    this.password = password
-    this.clientId = client_id
-    this.clientSecret = client_secret
     this.owner = owner
     this.repo = r
     this.branch = branch || 'master'
@@ -41,57 +33,6 @@ export class Octo {
     this.token = token
     this.customUrl = customUrl
     this.ctx = ctx
-  }
-
-  tokenOption = function () {
-    // ${encodeURI(options.path)}
-    let params = {
-      username: this.username,
-      password: this.password,
-      grant_type: 'password',
-      client_id: this.clientId,
-      client_secret: this.clientSecret,
-      scope: 'projects user_info'
-    }
-    return {
-      method: 'POST',
-      json: true,
-      resolveWithFullResponse: true,
-      url: `https://gitee.com/oauth/token`,
-      form: params
-    }
-  }
-
-  async getToken(refresh?: boolean) {
-    // this.ctx.log.info('token:' + this.token)
-    if (refresh) {
-      this.token = ''
-    } else {
-      this.token = this.token === '' ? this.ctx.getConfig('picBed.Gitee图床.token') : this.token
-    }
-    if (this.token === '') {
-      const options = this.tokenOption()
-      let result = await this.ctx.Request.request(options)
-      /* this.ctx.log.info('response result')
-      this.ctx.log.info(JSON.stringify(result)) */
-      if (result.statusCode === 200 && result.body && result.body.access_token) {
-        // this.ctx.log.info('save config:' + result.body.access_token)
-        this.token = result.body.access_token
-        this.ctx.saveConfig({
-          'picBed.Gitee图床.token': result.body.access_token
-        })
-        return result.body.access_token
-      } else {
-        this.ctx.log.error('获取access_token出错')
-        this.ctx.log.error(JSON.stringify(result))
-        if (refresh) {
-          this.ctx.saveConfig({
-            'picBed.Gitee图床.token': ''
-          })
-        }
-        throw new Error('get token failed')
-      }
-    }
   }
 
   async getTree(sha): Promise<{ path: string; sha: string }[]> {
@@ -113,15 +54,7 @@ export class Octo {
         access_token: this.token
       }
     }
-    let result
-    try {
-      result = await this.ctx.Request.request(params)
-    } catch (e) {
-      if (e && e.message && e.message.indexOf('401 Unauthorized') > 0) {
-        params.qs.access_token = await this.getToken(true)
-        result = await this.ctx.Request.request(params)
-      }
-    }
+    let result = await this.ctx.Request.request(params)
     // this.ctx.log.info('getTree result')
     // this.ctx.log.info(JSON.stringify(result.body))
     if (result && result.statusCode === 200) {
@@ -178,15 +111,7 @@ export class Octo {
           access_token: this.token
         }
       }
-      let result
-      try {
-        result = await this.ctx.Request.request(params)
-      } catch (e) {
-        if (e && e.message && e.message.indexOf('401 Unauthorized') > 0) {
-          params.qs.access_token = await this.getToken(true)
-          result = await this.ctx.Request.request(params)
-        }
-      }
+      let result = await this.ctx.Request.request(params)
       // this.ctx.log.info('getBlob result')
       // this.ctx.log.info(JSON.stringify(result.body))
       if (result && result.statusCode === 200) {
@@ -214,15 +139,7 @@ export class Octo {
       `Sync dataJson by PicGo at ${getNow()}`)
     params.formData['sha'] = sha
     // this.ctx.log.info(JSON.stringify(params))
-    let result
-    try {
-      result = await this.ctx.Request.request(params)
-    } catch (e) {
-      if (e && e.message && e.message.indexOf('401 Unauthorized') > 0) {
-        params.formData.access_token = await this.getToken(true)
-        result = await this.ctx.Request.request(params)
-      }
-    }
+    let result = await this.ctx.Request.request(params)
     // this.ctx.log.info('sync update data.json')
     // this.ctx.log.info(JSON.stringify(result))
     if (result && result.statusCode === 200) {
@@ -240,15 +157,7 @@ export class Octo {
     const params = this.uploadOptions(url, 'POST',
       Buffer.from(JSON.stringify(data)).toString('base64'),
       `Sync dataJson by PicGo at ${getNow()}`)
-    let result
-    try {
-      result = await this.ctx.Request.request(params)
-    } catch (e) {
-      if (e && e.message && e.message.indexOf('401 Unauthorized') > 0) {
-        params.formData.access_token = await this.getToken(true)
-        result = await this.ctx.Request.request(params)
-      }
-    }
+    let result = await this.ctx.Request.request(params)
     /* this.ctx.log.info('sync data.json')
     this.ctx.log.info(JSON.stringify(result)) */
     if (result && result.statusCode === 201) {
@@ -268,15 +177,7 @@ export class Octo {
     const params = this.uploadOptions(url, 'POST',
       img.base64Image || Buffer.from(img.buffer).toString('base64'),
       `Upload ${fileName} by picGo - ${getNow()}`);
-    let result
-    try {
-      result = await this.ctx.Request.request(params)
-    } catch (e) {
-      if (e && e.message && e.message.indexOf('401 Unauthorized') > 0) {
-        params.formData.access_token = await this.getToken(true)
-        result = await this.ctx.Request.request(params)
-      }
-    }
+    let result = await this.ctx.Request.request(params)
     /* this.ctx.log.info('upload result')
     this.ctx.log.info(JSON.stringify(result)) */
     if (result && result.statusCode === 201) {
@@ -305,15 +206,7 @@ export class Octo {
         branch: this.branch
       }
     }
-    let result
-    try {
-      result = await this.ctx.Request.request(params)
-    } catch (e) {
-      if (e && e.message && e.message.indexOf('401 Unauthorized') > 0) {
-        params.qs.access_token = await this.getToken(true)
-        result = await this.ctx.Request.request(params)
-      }
-    }
+    let result = await this.ctx.Request.request(params)
     /* this.ctx.log.info('Deleted result')
     this.ctx.log.info(JSON.stringify(result)) */
     if (result && result.statusCode === 200) {
