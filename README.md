@@ -25,6 +25,5 @@ makesure the `customUrl` can access your `repo`
 - Sync gitee: Just sync `data.json` (use latest updated)
 - Pull gitee: Pull all `img` info from gitee (**force** and **override** local `data.json`)
 
-### Other
+### Thanks
 this plugin base cloned from [picgo-plugin-github-plus](https://github.com/zWingz/picgo-plugin-github-plus) 
-Thanks
