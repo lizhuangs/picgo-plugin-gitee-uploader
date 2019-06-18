@@ -4,11 +4,11 @@ import { PluginConfig } from 'picgo/dist/utils/interfaces'
 import { getNow, zip, unzip } from './lib/helper'
 import { ImgType, PluginConfig as PlusConfig } from './lib/interface'
 const PluginName = 'picgo-plugin-gitee-uploader'
-const UploaderName = 'Gitee图床'
+const UploaderName = 'gitee'
 function initOcto(ctx: picgo) {
   const options: PlusConfig = ctx.getConfig('picBed.' + UploaderName)
   if (!options) {
-    throw new Error("Can't find gitee config")
+    throw new Error("Can't find gitee config:" + ('picBed.' + UploaderName))
   }
   const ins = getIns(options, ctx)
   return ins
@@ -250,8 +250,6 @@ export = (ctx: picgo) => {
   const register = () => {
     // const { gitee } = ctx.getConfig('picBed')
     // if (!gitee.token) return
-    // authenticate(gitee.token)
-    const ins = initOcto(ctx)
     ctx.helper.uploader.register(UploaderName, { handle, config })
     ctx.on('remove', onRemove)
   }
