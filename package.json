@@ -1,6 +1,6 @@
 {
   "name": "picgo-plugin-gitee-uploader",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "picgo uploader for gitee",
   "gui": true,
   "main": "dist/index.js",
@@ -22,7 +22,7 @@
     "clean": "rm -rf dist",
     "test": "jest",
     "pub": "yarn clean && yarn build && yarn publish",
-    "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
   },
   "keywords": [
     "picgo",
