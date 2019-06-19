@@ -182,7 +182,7 @@ export class Octo {
     this.ctx.log.info(JSON.stringify(result)) */
     if (result && result.statusCode === 201) {
       return {
-        imgUrl: result.body.content.download_url,
+        imgUrl: this.parseUrl(result.body.content.name), // result.body.content.download_url
         sha: result.body.content.sha
       }
     } else {
