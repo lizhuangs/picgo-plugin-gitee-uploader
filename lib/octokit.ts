@@ -1,5 +1,5 @@
 import picgo from 'picgo'
-import { getNow } from './helper'
+import { getNow, getPath } from './helper'
 import { PluginConfig, ImgType } from './interface'
 import urlJoin from 'url-join'
 import { ImgInfo } from 'picgo/dist/utils/interfaces'
@@ -22,6 +22,7 @@ export class Octo {
     branch,
     path = '',
     token,
+    customPath = '',
     customUrl = ''
   }: PluginConfig, ctx: picgo) {
     const [owner, r] = repo.split('/')
@@ -29,10 +30,10 @@ export class Octo {
     this.owner = owner
     this.repo = r
     this.branch = branch || 'master'
-    this.path = path
     this.token = token
     this.customUrl = customUrl
     this.ctx = ctx
+    this.path = getPath(path, customPath)
   }
 
   async getTree(sha): Promise<{ path: string; sha: string }[]> {
@@ -182,7 +183,8 @@ export class Octo {
     this.ctx.log.info(JSON.stringify(result)) */
     if (result && result.statusCode === 201) {
       return {
-        imgUrl: this.parseUrl(result.body.content.name), // result.body.content.download_url
+        // result.body.content.download_url
+        imgUrl: this.parseUrl(result.body.content.name),
         sha: result.body.content.sha
       }
     } else {

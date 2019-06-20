@@ -198,12 +198,6 @@ const config = (ctx: picgo): PluginConfig[] => {
   }
   const conf = [
     {
-      name: 'token',
-      type: 'password',
-      default: userConfig.password || '',
-      required: true
-    },
-    {
       name: 'repo',
       type: 'input',
       default: userConfig.repo || '',
@@ -216,10 +210,39 @@ const config = (ctx: picgo): PluginConfig[] => {
       required: false
     },
     {
+      name: 'token',
+      type: 'input',
+      default: userConfig.password || '',
+      required: true
+    },
+    {
       name: 'path',
       type: 'input',
       default: userConfig.path || '',
       required: false
+    },
+    {
+      name: 'customPath',
+      type: 'list',
+      default: userConfig.customPath || '',
+      required: false,
+      choices: [
+        {
+          name: 'default',
+          value: 'default'
+        },
+        {
+          name: '年',
+          value: 'year'
+        },
+        {
+          name: '年季',
+          value: 'yearQuarter'
+        },
+        {
+          name: '年月',
+          value: 'yearMonth'
+        }]
     },
     {
       name: 'customUrl',

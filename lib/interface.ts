@@ -7,6 +7,7 @@ export interface PluginConfig {
   branch?: string,
   path?: string,
   token: string,
+  customPath?: string
   customUrl?: string
 }
 
