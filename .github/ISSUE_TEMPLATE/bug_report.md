@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: "【BUG】主要的BUG描述标题"
+title: "[BUG]主要的BUG描述标题"
 labels: bug
 assignees: ''
 
