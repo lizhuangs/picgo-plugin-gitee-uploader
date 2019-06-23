@@ -1,6 +1,6 @@
 {
   "name": "picgo-plugin-gitee-uploader",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "picgo uploader for gitee",
   "gui": true,
   "main": "dist/index.js",
