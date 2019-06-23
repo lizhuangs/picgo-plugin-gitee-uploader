@@ -1,3 +1,12 @@
+## [1.1.2](https://github.com/lizhuangs/picgo-plugin-gitee-uploader/compare/1.1.0...1.1.2) (2019-06-23)
+
+
+### Bug Fixes
+
+* 修复上传删除包含中英文失败的问题 ([052708b](https://github.com/lizhuangs/picgo-plugin-gitee-uploader/commit/052708b)), closes [#2](https://github.com/lizhuangs/picgo-plugin-gitee-uploader/issues/2)
+
+
+
 # [1.1.0](https://github.com/lizhuangs/picgo-plugin-gitee-uploader/compare/1.0.4...1.1.0) (2019-06-20)
 
 
