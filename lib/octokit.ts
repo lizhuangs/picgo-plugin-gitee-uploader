@@ -236,8 +236,7 @@ export class Octo {
   }
 
   fileOptions = function (fileName) {
-    // ${encodeURI(options.path)}
-    return urlJoin(
+    return encodeURI(urlJoin(
       this.baseUrl,
       'repos',
       this.owner,
@@ -245,7 +244,7 @@ export class Octo {
       'contents',
       this.path,
       fileName
-    )
+    ))
   }
 
   parseUrl(fileName) {
